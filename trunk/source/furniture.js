@@ -8,7 +8,6 @@
 //add more rows/columns
 //make overflow checks
 //abs stripes
-//proba za SVM
 
 //global variables
 var renderer;
