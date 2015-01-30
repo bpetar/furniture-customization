@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Furniture Customization Demo</title>
+
+	<style>
+		#container {
+			width: 700px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		#header {
+			border-bottom: solid gray 2px;
+			height: 64px;		
+			padding-top: 8px;
+		}
+		
+		.headerTitle {
+			text-align: left;
+			color: gray;
+			font-family:sans-serif;
+		}
+	
+		ul#menu {
+			padding: 0;
+			text-align: center;
+			float: right;
+		}
+
+		ul#menu li {
+			display: inline;
+		}
+
+		ul#menu li a {
+			background-color: white;
+			color: blue;
+			padding: 10px 20px;
+			text-decoration: none;
+			border-radius: 4px 4px 0 0;
+			font-family:sans-serif;
+		}
+
+		ul#menu li a:hover {
+			background-color: lightblue;
+		}
+		#id-container3d {min-height: 350px}
+		
+		#settingsForm p {
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+		
+		.formRow {
+			display: block;			
+		}
+		
+		.formRow label {
+			display: inline-block;
+			width: 128px;
+			font-family:sans-serif;
+		}
+		.formButton1 {
+		background-image:url("media/wood_side_light.jpg");
+		height: 50px;
+		width: 50px;
+		margin-top:30px;
+		margin-right:30px;
+		cursor:pointer;
+		}
+		.formButton2 {
+		background-image:url("media/wood_side_red.jpg");
+		height:50px;
+		width:50px;
+		margin-top:30px;
+		margin-right:30px;
+		cursor:pointer;
+		}
+		.formButton3 {
+		background-image:url("media/wood_side_dark.jpg");
+		height:50px;
+		width:50px;
+		margin-top:30px;
+		cursor:pointer;
+		}
+	</style>
+	
+	<!-- links to three.js library -->
+	<script src="source/three.min.new.js"></script>
+	<!-- add for mouse controls, path to this lib could be Three.js library folder/examples/js/controls -->
+	<script src="source/controls/OrbitControls.js"></script>
+	<!-- links to furniture code -->
+	<script src="source/furniture.js"></script>
+	
+	<script>
+		function quickTest() {
+			console.log('use this for quick testing');
+		};
+	</script>	
+</head>
+
+<body onload="mainy()">
+
+<div id="container">
+	<div id="header">
+		<ul id="menu">
+		 <li><a href="">Home</a></li>
+		 <li><a href="">About</a></li>
+		 <li><a href="">Contact</a></li>
+		</ul>  
+
+		<h3 class="headerTitle">Furniture 3D</h3>
+		
+	</div>
+  
+  <div id="id-container3d"></div>
+  
+ 
+  <form id="settingsForm">
+	  <span class="formRow"><label for="width">Width:</label>   <input type="number" name="width" id="id-input-shelf-width" value="60" onchange="changeWidth()" ></span>
+	  <span class="formRow"><label for="height">Height:</label>  <input type="number" name="height" id="id-input-shelf-height" value="100" onchange="changeHeight()"></span>
+	  <span class="formRow"><label for="depth">Depth:</label>   <input type="number" name="depth" id="id-input-shelf-depth" value="30" onchange="changeDepth()"></span>
+	  <span class="formRow"><label for="rows">Rows:</label>    <input type="number" name="rows" id="id-input-shelf-rows" value="2" onchange="changeRows()"></span>
+	  <span class="formRow"><label for="columns">Columns:</label> <input type="number" name="columns" id="id-input-shelf-columns" value="1" onchange="changeColumns()"></span>
+  </form>
+
+<input class="formButton1" type="button" onclick="changeTexture('media/wood_side_light.jpg')"></input>
+<input class="formButton2" type="button" onclick="changeTexture('media/wood_side_red.jpg')"></input>
+<input class="formButton3" type="button" onclick="changeTexture('media/wood_side_dark.jpg')"></input>
+
+</div>
+</body>
+
+</html>
