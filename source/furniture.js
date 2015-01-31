@@ -3,7 +3,7 @@
 //+change textures
 //+add ui
 //+width changing doesnt modify the texture
-//vertical AND horizontal tickness
+//+vertical AND horizontal tickness
 //make backside
 //add more rows/columns
 //make overflow checks
@@ -19,7 +19,8 @@ var sideTexture;
 var stripeTexture;
 var length = 1;
 var firstytex = true;
-var plankThickness = 2;
+var plankThicknessVertical = 3;
+var plankThicknessHorizontal = 2;
 var shelfWidth = 60;
 var shelfHeight = 100;
 var shelfDepth = 30;
@@ -247,37 +248,37 @@ function drawShelf()
 	drawSide(shelfWidth/2,shelfHeight,shelfDepth);
 	if(numberOfColumns == 1)
 	{
-		drawSide(0,shelfHeight-plankThickness*2+0.2,shelfDepth);
+		drawSide(0,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
 	}
 	else if(numberOfColumns == 2)
 	{
-		drawSide(-shelfWidth/6,shelfHeight-plankThickness*2+0.2,shelfDepth);
-		drawSide(shelfWidth/6,shelfHeight-plankThickness*2+0.2,shelfDepth);
+		drawSide(-shelfWidth/6,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
+		drawSide(shelfWidth/6,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
 	}
 	else if(numberOfColumns > 2)
 	{
-		drawSide(-shelfWidth/4,shelfHeight-plankThickness*2+0.2,shelfDepth);
-		drawSide(0,shelfHeight-plankThickness*2+0.2,shelfDepth);
-		drawSide(shelfWidth/4,shelfHeight-plankThickness*2+0.2,shelfDepth);
+		drawSide(-shelfWidth/4,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
+		drawSide(0,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
+		drawSide(shelfWidth/4,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
 	}
 	
-	drawHorizontal(shelfWidth-plankThickness,shelfHeight/2,shelfDepth-0.2);
-	drawHorizontal(shelfWidth-plankThickness,-shelfHeight/2+plankThickness,shelfDepth-0.2);
+	drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight/2,shelfDepth-0.2);
+	drawHorizontal(shelfWidth-plankThicknessVertical,-shelfHeight/2+plankThicknessHorizontal,shelfDepth-0.2);
 	
 	if(numberOfRows == 1)
 	{
-		drawHorizontal(shelfWidth-plankThickness,0+plankThickness/2,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,0+plankThicknessHorizontal/2,shelfDepth-0.2);
 	}
 	else if(numberOfRows == 2)
 	{
-		drawHorizontal(shelfWidth-plankThickness,shelfHeight/6+plankThickness*1/4,shelfDepth-0.2);
-		drawHorizontal(shelfWidth-plankThickness,-shelfHeight/6+plankThickness*3/4,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight/6+plankThicknessHorizontal*1/4,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,-shelfHeight/6+plankThicknessHorizontal*3/4,shelfDepth-0.2);
 	}
 	else if(numberOfRows > 2)
 	{
-		drawHorizontal(shelfWidth-plankThickness,shelfHeight/4+plankThickness/4,shelfDepth-0.2);
-		drawHorizontal(shelfWidth-plankThickness,0+plankThickness/2,shelfDepth-0.2);
-		drawHorizontal(shelfWidth-plankThickness,-shelfHeight/4+plankThickness*3/4,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight/4+plankThicknessVertical/4,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,0+plankThicknessVertical/2,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,-shelfHeight/4+plankThicknessVertical*3/4,shelfDepth-0.2);
 	}
 }
 
@@ -297,34 +298,34 @@ function drawSide(x,y,z)
 	sideTexture.repeat.set( shelfDepth/50, shelfHeight/50  );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:sideTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (x+plankThickness,0,0);
+	cubeRepeat.position.set (x+plankThicknessVertical,0,0);
 	cubeRepeat.rotation.set (0,Math.PI/2,0);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
 	
-	planeGeometryRepeat = new THREE.PlaneGeometry(plankThickness,y,1,1);
-	stripeTexture.repeat.set( plankThickness/50, shelfHeight/50 );
+	planeGeometryRepeat = new THREE.PlaneGeometry(plankThicknessVertical,y,1,1);
+	stripeTexture.repeat.set( plankThicknessVertical/50, shelfHeight/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:stripeTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (x+plankThickness/2,0,z/2);
+	cubeRepeat.position.set (x+plankThicknessVertical/2,0,z/2);
 	cubeRepeat.rotation.set (0,0,0);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
 	
-	planeGeometryRepeat = new THREE.PlaneGeometry(plankThickness,z,1,1);
-	stripeTexture.repeat.set( plankThickness/50, shelfHeight/50 );
+	planeGeometryRepeat = new THREE.PlaneGeometry(plankThicknessVertical,z,1,1);
+	stripeTexture.repeat.set( plankThicknessVertical/50, shelfHeight/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:stripeTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (x+plankThickness/2,y/2,0);
+	cubeRepeat.position.set (x+plankThicknessVertical/2,y/2,0);
 	cubeRepeat.rotation.set (-Math.PI/2,0,0);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
 	
-	planeGeometryRepeat = new THREE.PlaneGeometry(plankThickness,z,1,1);
-	stripeTexture.repeat.set( plankThickness/50, shelfHeight/50 );
+	planeGeometryRepeat = new THREE.PlaneGeometry(plankThicknessVertical,z,1,1);
+	stripeTexture.repeat.set( plankThicknessVertical/50, shelfHeight/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:stripeTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (x+plankThickness/2,-y/2,0);
+	cubeRepeat.position.set (x+plankThicknessVertical/2,-y/2,0);
 	cubeRepeat.rotation.set (Math.PI/2,0,0);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
@@ -338,7 +339,7 @@ function drawHorizontal(x,y,z)
 	sideTexture.repeat.set( shelfDepth/50, shelfWidth/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:sideTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (plankThickness/2,y,0);
+	cubeRepeat.position.set (plankThicknessVertical/2,y,0);
 	cubeRepeat.rotation.set (-Math.PI/2,0,0);
 	cubeRepeat.rotation.set (-Math.PI/2,0,-Math.PI/2);
 	scene.add(cubeRepeat);
@@ -348,17 +349,17 @@ function drawHorizontal(x,y,z)
 	sideTexture.repeat.set( shelfDepth/50, shelfWidth/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:sideTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (plankThickness/2,y-plankThickness,0);
+	cubeRepeat.position.set (plankThicknessVertical/2,y-plankThicknessHorizontal,0);
 	cubeRepeat.rotation.set (-Math.PI/2,0,0);
 	cubeRepeat.rotation.set (Math.PI/2,0,Math.PI/2);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
 	
-	planeGeometryRepeat = new THREE.PlaneGeometry(plankThickness,shelfWidth,1,1);
-	stripeTexture.repeat.set( plankThickness/50, shelfWidth/50 );
+	planeGeometryRepeat = new THREE.PlaneGeometry(plankThicknessHorizontal,shelfWidth,1,1);
+	stripeTexture.repeat.set( plankThicknessHorizontal/50, shelfWidth/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:stripeTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (plankThickness/2,y-plankThickness/2,z/2-0.1);
+	cubeRepeat.position.set (plankThicknessVertical/2,y-plankThicknessHorizontal/2,z/2-0.1);
 	cubeRepeat.rotation.set (0,0,Math.PI/2);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
