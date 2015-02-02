@@ -111,7 +111,27 @@ function changeWidth() {
 		drawShelf();
 	}	
 };
-
+function changePlankThicknessVertical() {
+		     console.log('chanhing vertical thicness')
+		
+	var elem = document.getElementById( 'id-input-shelf-v_thicness' );
+	var value = elem.value;
+	    plankThicknessVertical = parseInt(value);
+		
+	    clearScene();
+		drawShelf();
+		
+};
+function  changePlankThicknessHorizontal(){
+             console.log('changing horizontal thicness')
+	   
+	var elem = document.getElementById( 'id-input-shelf-h_thicness' );
+	var value = elem.value;
+	     plankThicknessHorizontal = parseInt(value);
+		
+	    clearScene();
+		drawShelf();		
+		};		 
 function changeHeight() {
 	console.log('changing Height');
 	
