@@ -116,10 +116,35 @@ function changePlankThicknessVertical() {
 		
 	var elem = document.getElementById( 'id-input-shelf-v_thicness' );
 	var value = elem.value;
-	    plankThicknessVertical = parseInt(value);
+	var newplankThicknessVertical = parseInt(value);
 		
-	    clearScene();
+	//check wrong values
+	if (isNaN(newplankThicknessVertical))
+	{
+		elem.value = plankThicknessVertical
+		newplankThicknessVertical = plankThicknessVertical;
+		console.log("value not a number!");
+	}
+	if(newplankThicknessVertical>20)
+	{
+		elem.value = 20;
+		newplankThicknessVertical = 20;
+		console.log("value too high!");
+	}
+	if(newplankThicknessVertical<0)
+	{
+		elem.value = 0;
+		newplankThicknessVertical = 0;
+		console.log("value too small!");
+	}
+
+	//if new value is valid and different then old value, we draw shelf
+	if(newplankThicknessVertical != plankThicknessVertical)
+	{
+		plankThicknessVertical = newplankThicknessVertical;
+		clearScene();
 		drawShelf();
+	}
 		
 };
 function  changePlankThicknessHorizontal(){
@@ -127,11 +152,37 @@ function  changePlankThicknessHorizontal(){
 	   
 	var elem = document.getElementById( 'id-input-shelf-h_thicness' );
 	var value = elem.value;
-	     plankThicknessHorizontal = parseInt(value);
+    var newplankThicknessHorizontal = parseInt(value);
 		
-	    clearScene();
-		drawShelf();		
-		};		 
+	//check wrong values
+	if (isNaN(newplankThicknessHorizontal))
+	{
+		elem.value = plankThicknessHorizontal
+		newplankThicknessHorizontal = plankThicknessHorizontal;
+		console.log("value not a number!");
+	}
+	if(newplankThicknessHorizontal>20)
+	{
+		elem.value = 20;
+		newplankThicknessHorizontal = 20;
+		console.log("value too high!");
+	}
+	if(newplankThicknessHorizontal<0)
+	{
+		elem.value = 0;
+		newplankThicknessHorizontal = 0;
+		console.log("value too small!");
+	}
+
+	//if new value is valid and different then old value, we draw shelf
+	if(newplankThicknessHorizontal != plankThicknessHorizontal)
+	{
+		plankThicknessHorizontal = newplankThicknessHorizontal;
+		clearScene();
+		drawShelf();
+	}
+	   		
+};		 
 function changeHeight() {
 	console.log('changing Height');
 	
