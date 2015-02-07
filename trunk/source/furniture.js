@@ -13,6 +13,8 @@
 var renderer;
 var scene;
 var camera;
+var controls;
+var crate;
 
 //shelf
 var sideTexture;
@@ -37,6 +39,8 @@ function mainy()
 	//init shelf
 	initTextures();
 	drawShelf();
+	
+	//draw crate by the shelf
     drawCube();
 	
 }
@@ -54,9 +58,10 @@ function init3d()
 	var view_angle = 10,
 		aspect = container3d.offsetWidth/container3d.offsetHeight,
 		near = 0.1,
-		far = 2000;
+		far = 9000;
 	camera = new THREE.PerspectiveCamera(view_angle, aspect, near, far); //creating camera
-	camera.position.z = 680;
+	camera.position.z = 780;
+	camera.position.y = 80;
 
 	//renderer
 	renderer = new THREE.WebGLRenderer({color: 0xffffff }); //create renderer,set its size,add to body
@@ -65,7 +70,8 @@ function init3d()
 	container3d.appendChild(renderer.domElement);
 	
 	//controls
-	var controls = new THREE.OrbitControls( camera, renderer.domElement );
+	controls = new THREE.OrbitControls( camera, renderer.domElement );
+	controls.target = new THREE.Vector3(0,50,0)
 	controls.update();
 
 	//some light
@@ -108,10 +114,15 @@ function changeWidth() {
 	if(newShelfWidth != shelfWidth)
 	{
 		shelfWidth = newShelfWidth;
+		if (shelfWidth>100)
+			crate.position.z = 125;
+		else
+			crate.position.z = 25;
 		clearScene();
 		drawShelf();
-	}	
+	}
 };
+
 function changePlankThicknessVertical() {
 		     console.log('chanhing vertical thicness')
 		
@@ -320,37 +331,37 @@ function drawShelf()
 	drawSide(shelfWidth/2,shelfHeight,shelfDepth);
 	if(numberOfColumns == 1)
 	{
-		drawSide(0,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
+		drawSide(0,shelfHeight-plankThicknessHorizontal*2+0.4,shelfDepth);
 	}
 	else if(numberOfColumns == 2)
 	{
-		drawSide(-shelfWidth/6,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
-		drawSide(shelfWidth/6,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
+		drawSide(-shelfWidth/6,shelfHeight-plankThicknessHorizontal*2+0.4,shelfDepth);
+		drawSide(shelfWidth/6,shelfHeight-plankThicknessHorizontal*2+0.4,shelfDepth);
 	}
 	else if(numberOfColumns > 2)
 	{
-		drawSide(-shelfWidth/4,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
+		drawSide(-shelfWidth/4,shelfHeight-plankThicknessHorizontal*2+0.4,shelfDepth);
 		drawSide(0,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
-		drawSide(shelfWidth/4,shelfHeight-plankThicknessHorizontal*2+0.2,shelfDepth);
+		drawSide(shelfWidth/4,shelfHeight-plankThicknessHorizontal*2+0.4,shelfDepth);
 	}
 	
-	drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight/2,shelfDepth-0.2);
-	drawHorizontal(shelfWidth-plankThicknessVertical,-shelfHeight/2+plankThicknessHorizontal,shelfDepth-0.2);
+	drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight,shelfDepth-0.2);
+	drawHorizontal(shelfWidth-plankThicknessVertical,0+plankThicknessHorizontal,shelfDepth-0.2);
 	
 	if(numberOfRows == 1)
 	{
-		drawHorizontal(shelfWidth-plankThicknessVertical,0+plankThicknessHorizontal/2,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight/2+plankThicknessHorizontal/2,shelfDepth-0.2);
 	}
 	else if(numberOfRows == 2)
 	{
-		drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight/6+plankThicknessHorizontal*1/4,shelfDepth-0.2);
-		drawHorizontal(shelfWidth-plankThicknessVertical,-shelfHeight/6+plankThicknessHorizontal*3/4,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,2*shelfHeight/3+plankThicknessHorizontal*1/4,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight/3+plankThicknessHorizontal*3/4,shelfDepth-0.2);
 	}
 	else if(numberOfRows > 2)
 	{
-		drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight/4+plankThicknessVertical/4,shelfDepth-0.2);
-		drawHorizontal(shelfWidth-plankThicknessVertical,0+plankThicknessVertical/2,shelfDepth-0.2);
-		drawHorizontal(shelfWidth-plankThicknessVertical,-shelfHeight/4+plankThicknessVertical*3/4,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight*3/4+plankThicknessVertical/4,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight/2+plankThicknessVertical/2,shelfDepth-0.2);
+		drawHorizontal(shelfWidth-plankThicknessVertical,shelfHeight/4+plankThicknessVertical*3/4,shelfDepth-0.2);
 	}
 }
 
@@ -361,7 +372,10 @@ function drawSide(x,y,z)
 	sideTexture.repeat.set( shelfDepth/50, shelfHeight/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:sideTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (x,0,0);
+	if(y<shelfHeight)
+		cubeRepeat.position.set (x,y/2+plankThicknessHorizontal-0.2,z/2);
+	else
+		cubeRepeat.position.set (x,y/2,z/2);
 	cubeRepeat.rotation.set (0,-Math.PI/2,0);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
@@ -370,7 +384,10 @@ function drawSide(x,y,z)
 	sideTexture.repeat.set( shelfDepth/50, shelfHeight/50  );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:sideTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (x+plankThicknessVertical,0,0);
+	if(y<shelfHeight)
+		cubeRepeat.position.set (x+plankThicknessVertical,y/2+plankThicknessHorizontal-0.2,z/2);
+	else
+		cubeRepeat.position.set (x+plankThicknessVertical,y/2,z/2);
 	cubeRepeat.rotation.set (0,Math.PI/2,0);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
@@ -379,7 +396,10 @@ function drawSide(x,y,z)
 	stripeTexture.repeat.set( plankThicknessVertical/50, shelfHeight/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:stripeTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (x+plankThicknessVertical/2,0,z/2);
+	if(y<shelfHeight)
+		cubeRepeat.position.set (x+plankThicknessVertical/2,y/2+plankThicknessHorizontal-0.2,z);
+	else
+		cubeRepeat.position.set (x+plankThicknessVertical/2,y/2,z);
 	cubeRepeat.rotation.set (0,0,0);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
@@ -388,7 +408,10 @@ function drawSide(x,y,z)
 	stripeTexture.repeat.set( plankThicknessVertical/50, shelfHeight/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:stripeTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (x+plankThicknessVertical/2,y/2,0);
+	if(y<shelfHeight)
+		cubeRepeat.position.set (x+plankThicknessVertical/2,y+plankThicknessHorizontal-0.2,z/2);
+	else
+		cubeRepeat.position.set (x+plankThicknessVertical/2,y,z/2);
 	cubeRepeat.rotation.set (-Math.PI/2,0,0);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
@@ -397,7 +420,10 @@ function drawSide(x,y,z)
 	stripeTexture.repeat.set( plankThicknessVertical/50, shelfHeight/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:stripeTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (x+plankThicknessVertical/2,-y/2,0);
+	if(y<shelfHeight)
+		cubeRepeat.position.set (x+plankThicknessVertical/2,plankThicknessHorizontal-0.2,z/2);
+	else
+		cubeRepeat.position.set (x+plankThicknessVertical/2,0,z/2);
 	cubeRepeat.rotation.set (Math.PI/2,0,0);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
@@ -411,7 +437,7 @@ function drawHorizontal(x,y,z)
 	sideTexture.repeat.set( shelfDepth/50, shelfWidth/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:sideTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (plankThicknessVertical/2,y,0);
+	cubeRepeat.position.set (plankThicknessVertical/2,y,z/2);
 	cubeRepeat.rotation.set (-Math.PI/2,0,0);
 	cubeRepeat.rotation.set (-Math.PI/2,0,-Math.PI/2);
 	scene.add(cubeRepeat);
@@ -421,7 +447,7 @@ function drawHorizontal(x,y,z)
 	sideTexture.repeat.set( shelfDepth/50, shelfWidth/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:sideTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (plankThicknessVertical/2,y-plankThicknessHorizontal,0);
+	cubeRepeat.position.set (plankThicknessVertical/2,y-plankThicknessHorizontal,z/2);
 	cubeRepeat.rotation.set (-Math.PI/2,0,0);
 	cubeRepeat.rotation.set (Math.PI/2,0,Math.PI/2);
 	scene.add(cubeRepeat);
@@ -431,26 +457,25 @@ function drawHorizontal(x,y,z)
 	stripeTexture.repeat.set( plankThicknessHorizontal/50, shelfWidth/50 );
 	var cubeMaterial = new THREE.MeshLambertMaterial({map:stripeTexture});
 	var cubeRepeat = new THREE.Mesh(planeGeometryRepeat, cubeMaterial);
-	cubeRepeat.position.set (plankThicknessVertical/2,y-plankThicknessHorizontal/2,z/2-0.1);
+	cubeRepeat.position.set (plankThicknessVertical/2,y-plankThicknessHorizontal/2,z-0.1);
 	cubeRepeat.rotation.set (0,0,Math.PI/2);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
 	
 
 }
+
 function drawCube()
 {
-	
-	
     var geometry = new THREE.CubeGeometry(50, 50, 50);
 	var cubeTexture = THREE.ImageUtils.loadTexture('./media/cube_texture.jpg');
 	var material = new THREE.MeshLambertMaterial({map: cubeTexture});
-	var cube = new THREE.Mesh(geometry, material);
+	crate = new THREE.Mesh(geometry, material);
 	
-	cube.position.x = 80;
-	cube.position.y = -25;
-	cube.position.z = 0;
-	scene.add(cube);
+	crate.position.x = 80;
+	crate.position.y = 25;
+	crate.position.z = 25;
+	scene.add(crate);
 	       
 
 }
