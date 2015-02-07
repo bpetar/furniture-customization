@@ -37,7 +37,8 @@ function mainy()
 	//init shelf
 	initTextures();
 	drawShelf();
-
+    drawCube();
+	
 }
 
 //init three.js scene and renderer
@@ -437,7 +438,22 @@ function drawHorizontal(x,y,z)
 	
 
 }
+function drawCube()
+{
+	
+	
+    var geometry = new THREE.CubeGeometry(50, 50, 50);
+	var cubeTexture = THREE.ImageUtils.loadTexture('./media/cube_texture.jpg');
+	var material = new THREE.MeshLambertMaterial({map: cubeTexture});
+	var cube = new THREE.Mesh(geometry, material);
+	
+	cube.position.x = 80;
+	cube.position.y = -25;
+	cube.position.z = 0;
+	scene.add(cube);
+	       
 
+}
 			
 			
 			
