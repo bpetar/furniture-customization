@@ -41,7 +41,10 @@ function mainy()
 	drawShelf();
 	
 	//draw crate by the shelf
-    drawCube();
+    drawCrate();
+	
+	//draw floor and walls
+	drawFloorAndWalls();
 	
 }
 
@@ -78,6 +81,11 @@ function init3d()
 	var pointLight =
 	new THREE.PointLight(0xFFFFFF);
 	pointLight.position.set(-500,400,500);
+	scene.add(pointLight);
+
+	var pointLight =
+	new THREE.PointLight(0x999999);
+	pointLight.position.set(500,-400,500);
 	scene.add(pointLight);
 	
 	//need to create ambient light to see ambient color that we set
@@ -461,11 +469,10 @@ function drawHorizontal(x,y,z)
 	cubeRepeat.rotation.set (0,0,Math.PI/2);
 	scene.add(cubeRepeat);
 	objectsArr.push(cubeRepeat);
-	
 
 }
 
-function drawCube()
+function drawCrate()
 {
     var geometry = new THREE.CubeGeometry(50, 50, 50);
 	var cubeTexture = THREE.ImageUtils.loadTexture('./media/cube_texture.jpg');
@@ -476,10 +483,12 @@ function drawCube()
 	crate.position.y = 25;
 	crate.position.z = 25;
 	scene.add(crate);
-	       
-
 }
-			
-			
+
+//draw floor and walls
+drawFloorAndWalls()
+{
+	//todo
+}			
 			
 			
