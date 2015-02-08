@@ -33,7 +33,7 @@
 		}
 
 		ul#menu li a {
-			background-color: white;
+			//background-color: white;
 			color: blue;
 			padding: 10px 20px;
 			text-decoration: none;
@@ -41,9 +41,10 @@
 			font-family:sans-serif;
 		}
 
-		ul#menu li a:hover {
+		.menu_option_selected {
 			background-color: lightblue;
 		}
+		
 		#id-container3d {min-height: 350px}
 		
 		#settingsForm p {
@@ -104,8 +105,9 @@
 <div id="container">
 	<div id="header">
 		<ul id="menu">
-		 <li><a href="">Home</a></li>
-		 <li><a href="">About</a></li>
+		 <li><a class="menu_option_selected" href="">Shelf</a></li>
+		 <li><a href="">Sofa</a></li>
+		 <li><a href="">Chair</a></li>
 		 <li><a href="">Contact</a></li>
 		</ul>  
 
