@@ -39,6 +39,8 @@ function mainy()
 	//init shelf
 	initTextures();
 	drawShelf();
+	loadModel();
+	modelLoaded();
 	
 	//draw crate by the shelf
     drawCrate();
@@ -491,4 +493,23 @@ drawFloorAndWalls()
 	//todo
 }			
 			
+function loadModel() {  // Call this function to load the model.
+    var loader = new THREE.JSONLoader();
+	alert('A');
+    loader.load('./media/plant.json', modelLoaded);  // Start load, call modelLoaded when done.
+	alert('B');
+}
+     
+function modelLoaded( geometry, materials ) { // callback function for JSON loader
+    var materials = new THREE.MeshFaceMaterial( materials );
+    var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+	alert('C');
+	materials [ 0 ].shading = THREE.FlatShading;
+	alert('D');
+    mesh.position = 1,1,1;
+    mesh.rotation = 1,1,1;
+    mesh.name = "plant";
+    mesh.visible = true;
+    scene.add( mesh );
+}
 			
