@@ -69,7 +69,7 @@ function init3d()
 	camera.position.y = 80;
 
 	//renderer
-	renderer = new THREE.WebGLRenderer({color: 0xffffff }); //create renderer,set its size,add to body
+	renderer = new THREE.WebGLRenderer({color: 0xffffff , antialias:true}); //create renderer,set its size,add to body
 	renderer.setSize(container3d.offsetWidth, container3d.offsetHeight);
 	renderer.setClearColor( 0xA4A4A4, 1); //setting colour to dark grey (default is black) and opaque alpha value
 	container3d.appendChild(renderer.domElement);
@@ -495,7 +495,7 @@ function drawFloorAndWalls()
 			
 function loadModel() {  // Call this function to load the model.
     var loader = new THREE.JSONLoader();
-    loader.load('./media/rocky.json', modelLoaded);  // Start load, call modelLoaded when done.
+    loader.load('./media/plant.js', modelLoaded);  // Start load, call modelLoaded when done.
 }
      
 function modelLoaded( geometry, materials ) { // callback function for JSON loader
