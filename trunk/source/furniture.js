@@ -16,6 +16,7 @@ var camera;
 var controls;
 var crate;
 
+
 //shelf
 var sideTexture;
 var stripeTexture;
@@ -30,11 +31,15 @@ var numberOfColumns = 1;
 var numberOfRows = 2;
 var objectsArr = [];
 
+//sofa
+var sceneSofa;
+var sofaInitialized = false;
+
 //main entry function, 
 function mainy()
 {
 	//init 3D
-	init3d();
+	initShelf3dView();
 	
 	//init shelf
 	initTextures();
@@ -51,7 +56,7 @@ function mainy()
 }
 
 //init three.js scene and renderer
-function init3d()
+function initShelf3dView()
 {
 	//get html element that shows 3D
 	var container3d = document.getElementById( 'id-container3d' );
@@ -71,7 +76,7 @@ function init3d()
 	//renderer
 	renderer = new THREE.WebGLRenderer({color: 0xffffff , antialias:true}); //create renderer,set its size,add to body
 	renderer.setSize(container3d.offsetWidth, container3d.offsetHeight);
-	renderer.setClearColor( 0xA4A4A4, 1); //setting colour to dark grey (default is black) and opaque alpha value
+	renderer.setClearColor( 0xEEEEEE, 1); //setting colour to dark grey (default is black) and opaque alpha value
 	container3d.appendChild(renderer.domElement);
 	
 	//controls
@@ -98,10 +103,69 @@ function init3d()
 	render();
 }
 
+
+function initSofa3dView()
+{
+	if (sofaInitialized)
+		return;
+	
+	//get html element that shows 3D
+	var container3d = document.getElementById( 'id-sofa-container3d' );
+	
+	//creating Three.js scene
+	sceneSofa = new THREE.Scene(); 
+	
+	//camera properties
+	var view_angle = 10,
+		aspect = container3d.offsetWidth/container3d.offsetHeight,
+		near = 0.1,
+		far = 9000;
+	cameraSofa = new THREE.PerspectiveCamera(view_angle, aspect, near, far); //creating camera
+	cameraSofa.position.z = 780;
+	cameraSofa.position.y = 80;
+
+	//renderer
+	rendererSofa = new THREE.WebGLRenderer({color: 0xffffff , antialias:true}); //create renderer,set its size,add to body
+	rendererSofa.setSize(container3d.offsetWidth, container3d.offsetHeight);
+	rendererSofa.setClearColor( 0xEEEEEE, 1); //setting colour to dark grey (default is black) and opaque alpha value
+	container3d.appendChild(rendererSofa.domElement);
+	
+	//controls
+	controlsSofa = new THREE.OrbitControls( cameraSofa, rendererSofa.domElement );
+	controlsSofa.target = new THREE.Vector3(0,50,0)
+	controlsSofa.update();
+
+	//some light
+	var pointLight =
+	new THREE.PointLight(0xFFFFFF);
+	pointLight.position.set(-500,400,500);
+	sceneSofa.add(pointLight);
+
+	var pointLight =
+	new THREE.PointLight(0x999999);
+	pointLight.position.set(500,-400,500);
+	sceneSofa.add(pointLight);
+	
+	//need to create ambient light to see ambient color that we set
+	var lightAmb = new THREE.AmbientLight(0x333333); 
+	lightAmb.position.set( 10,20,50 );
+	sceneSofa.add(lightAmb);
+	
+	renderSofa();
+	
+	sofaInitialized = true;
+}
+
 var render = function () {
 	//finally doing rendering, when this function is called
 	requestAnimationFrame(render);
 	renderer.render(scene, camera);
+};
+
+var renderSofa = function () {
+	//finally doing rendering, when this function is called
+	requestAnimationFrame(renderSofa);
+	rendererSofa.render(sceneSofa, cameraSofa);
 };
 
 function clearScene()

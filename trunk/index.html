@@ -32,13 +32,14 @@
 			display: inline;
 		}
 
-		ul#menu li a {
+		ul#menu li span {
 			//background-color: white;
 			color: blue;
 			padding: 10px 20px;
 			text-decoration: none;
 			border-radius: 4px 4px 0 0;
 			font-family:sans-serif;
+			cursor:pointer;
 		}
 
 		.menu_option_selected {
@@ -46,6 +47,8 @@
 		}
 		
 		#id-container3d {min-height: 350px}
+		
+		#id-sofa-container3d {min-height: 350px}
 		
 		#settingsForm p {
 			margin-top: 0px;
@@ -92,6 +95,10 @@
 	<script src="source/controls/OrbitControls.js"></script>
 	<!-- links to furniture code -->
 	<script src="source/furniture.js"></script>
+	<!-- links to ui code -->
+	<script src="source/ui.js"></script>
+	<!-- links to util code -->
+	<script src="source/util.js"></script>
 	
 	<script>
 		function quickTest() {
@@ -102,37 +109,90 @@
 
 <body onload="mainy()">
 
-<div id="container">
 	<div id="header">
 		<ul id="menu">
-		 <li><a class="menu_option_selected" href="">Shelf</a></li>
-		 <li><a href="">Sofa</a></li>
-		 <li><a href="">Chair</a></li>
-		 <li><a href="">Contact</a></li>
+		 <li><span id="id-menu-shelf" onclick="goToShelfTab()" class="menu_option_selected">Shelf</span></li>
+		 <li><span id="id-menu-sofa" onclick="goToSofaTab()" >Sofa</span></li>
+		 <li><span id="id-menu-kitchen" onclick="goToKitchenTab()" >Kitchen</span></li>
+		 <li><span id="id-menu-contact" onclick="goToContactTab()" >Contact</span></li>
 		</ul>  
 
 		<h3 class="headerTitle">Furniture 3D</h3>
 		
 	</div>
-  
-  <div id="id-container3d"></div>
-  
- 
-  <form id="settingsForm">
-	  <span class="formRow"><label for="width">Width:</label>   <input type="number" name="width" id="id-input-shelf-width" value="60" onchange="changeWidth()" ></span>
-	  <span class="formRow"><label for="height">Height:</label>  <input type="number" name="height" id="id-input-shelf-height" value="100" onchange="changeHeight()"></span>
-	  <span class="formRow"><label for="depth">Depth:</label>   <input type="number" name="depth" id="id-input-shelf-depth" value="30" onchange="changeDepth()"></span>
-	  <span class="formRow"><label for="rows">Rows:</label>    <input type="number" name="rows" id="id-input-shelf-rows" value="2" onchange="changeRows()"></span>
-	  <span class="formRow"><label for="columns">Columns:</label> <input type="number" name="columns" id="id-input-shelf-columns" value="1" onchange="changeColumns()"></span>
-	  <span class="formRow"><label for="h_thicness">H-Thicness:</label> <input type="number" name="h_thicness" id="id-input-shelf-h_thicness" value="3" onchange="changePlankThicknessHorizontal()"></span>
-	  <span class="formRow"><label for="v_thicness">V-Thicness:</label> <input type="number" name="v_thicness" id="id-input-shelf-v_thicness" value="3" onchange="changePlankThicknessVertical()"></span>
-  </form>
 
-<input class="formButton1" type="button" onclick="changeTexture('media/wood_side_light.jpg')"></input>
-<input class="formButton2" type="button" onclick="changeTexture('media/wood_side_red.jpg')"></input>
-<input class="formButton3" type="button" onclick="changeTexture('media/wood_side_dark.jpg')"></input>
+	<!-- shelf tab div -->
+	<div id="id-shelf-container">
+	  
+		<div id="id-container3d"></div>
+	 
+		<div id="id-settings">
+			<div id="id-settings-dim" style="float:left; margin-left:50px;">
+				<form id="settingsForm">
+					<span class="formRow"><label for="width">Width:</label>   <input type="number" name="width" id="id-input-shelf-width" value="60" onchange="changeWidth()" ></span>
+					<span class="formRow"><label for="height">Height:</label>  <input type="number" name="height" id="id-input-shelf-height" value="100" onchange="changeHeight()"></span>
+					<span class="formRow"><label for="depth">Depth:</label>   <input type="number" name="depth" id="id-input-shelf-depth" value="30" onchange="changeDepth()"></span>
+					<span class="formRow"><label for="rows">Rows:</label>    <input type="number" name="rows" id="id-input-shelf-rows" value="2" onchange="changeRows()"></span>
+					<span class="formRow"><label for="columns">Columns:</label> <input type="number" name="columns" id="id-input-shelf-columns" value="1" onchange="changeColumns()"></span>
+					<span class="formRow"><label for="h_thicness">H-Thicness:</label> <input type="number" name="h_thicness" id="id-input-shelf-h_thicness" value="3" onchange="changePlankThicknessHorizontal()"></span>
+					<span class="formRow"><label for="v_thicness">V-Thicness:</label> <input type="number" name="v_thicness" id="id-input-shelf-v_thicness" value="3" onchange="changePlankThicknessVertical()"></span>
+				</form>
+			</div>
 
-</div>
+			<div id="id-settings-tex" style="margin-left:50px;">
+				<input class="formButton1" type="button" onclick="changeTexture('media/wood_side_light.jpg')"></input>
+				<input class="formButton2" type="button" onclick="changeTexture('media/wood_side_red.jpg')"></input>
+				<input class="formButton3" type="button" onclick="changeTexture('media/wood_side_dark.jpg')"></input>
+			</div>
+		</div>
+		
+		
+	</div>
+	
+	<!-- sofa tab div -->
+	<div id="id-sofa-container" style="display:none;">
+	  
+		<div id="id-sofa-container3d"></div>
+
+		<div id="id-sofa-base-tex">
+			Choose Base Texture: 
+			<input class="formButton1" type="button" onclick="changeSofaTexture('media/wood_side_light.jpg')"></input>
+			<input class="formButton2" type="button" onclick="changeSofaTexture('media/wood_side_red.jpg')"></input>
+			<input class="formButton3" type="button" onclick="changeSofaTexture('media/wood_side_dark.jpg')"></input>
+		</div>
+		<div id="id-sofa-seat-tex">
+			Choose Seat Texture: 
+			<input class="formButton1" type="button" onclick="changeSofaTexture('media/wood_side_light.jpg')"></input>
+			<input class="formButton2" type="button" onclick="changeSofaTexture('media/wood_side_red.jpg')"></input>
+			<input class="formButton3" type="button" onclick="changeSofaTexture('media/wood_side_dark.jpg')"></input>
+		</div>
+		<div id="id-sofa-cushion-tex">
+			Choose Cushion Texture: 
+			<input class="formButton1" type="button" onclick="changeSofaTexture('media/wood_side_light.jpg')"></input>
+			<input class="formButton2" type="button" onclick="changeSofaTexture('media/wood_side_red.jpg')"></input>
+			<input class="formButton3" type="button" onclick="changeSofaTexture('media/wood_side_dark.jpg')"></input>
+		</div>
+	</div>
+	
+	
+	<!-- kitchen tab div -->
+	<div id="id-kitchen-container" style="display:none;">
+	  
+		<div id="id-kitchen-container3d"></div>
+
+		<input class="formButton1" type="button" onclick="changekitchenTexture('media/wood_side_light.jpg')"></input>
+		<input class="formButton2" type="button" onclick="changekitchenTexture('media/wood_side_red.jpg')"></input>
+		<input class="formButton3" type="button" onclick="changekitchenTexture('media/wood_side_dark.jpg')"></input>
+
+	</div>
+	
+	<!-- contact tab div -->
+	<div id="id-contact-container" style="display:none;">
+	  
+		<div id="id-contact-container3d"></div>
+
+	</div>
+	
 </body>
 
 </html>
