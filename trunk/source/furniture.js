@@ -37,7 +37,6 @@ var sofaInitialized = false;
 var sofaMesh ;
 
 
-
 //main entry function, 
 function mainy()
 {
@@ -601,80 +600,35 @@ function modelLoaded( geometry, materials ) { // callback function for JSON load
     scene.add( mesh );
 	mesh.scale *= 10;
 }
-function changeSofaTexture1()
+
+function changeSofaTexture1(baza)
+{
+	sofaMesh.material.materials[7].map = THREE.ImageUtils.loadTexture( baza);
+    sofaMesh.material.materials[7].needsUpdate = true;
+}
+
+function changeSofaTexture2(sedalica)
 {
     
-	sofaMesh.material.materials[0].map = THREE.ImageUtils.loadTexture( './media/jastuk3.jpg');
+	sofaMesh.material.materials[0].map = THREE.ImageUtils.loadTexture( sedalica);
     sofaMesh.material.materials[0].needsUpdate = true;
-	sofaMesh.material.materials[1].map = THREE.ImageUtils.loadTexture( './media/jastuk3.jpg');
+	sofaMesh.material.materials[1].map = THREE.ImageUtils.loadTexture( sedalica);
     sofaMesh.material.materials[1].needsUpdate = true;
-	sofaMesh.material.materials[2].map = THREE.ImageUtils.loadTexture( './media/jastuk3.jpg');
+	sofaMesh.material.materials[2].map = THREE.ImageUtils.loadTexture( sedalica);
     sofaMesh.material.materials[2].needsUpdate = true;
 		
 }
-function changeSofaTexture2()
+
+function changeSofaTexture3(jastuci)
 {
-	sofaMesh.material.materials[0].map = THREE.ImageUtils.loadTexture( './media/jastuk5.jpg');
-    sofaMesh.material.materials[0].needsUpdate = true;
-	sofaMesh.material.materials[1].map = THREE.ImageUtils.loadTexture( './media/jastuk5.jpg');
-    sofaMesh.material.materials[1].needsUpdate = true;
-	sofaMesh.material.materials[2].map = THREE.ImageUtils.loadTexture( './media/jastuk5.jpg');
-    sofaMesh.material.materials[2].needsUpdate = true;
-}
-function changeSofaTexture3()
-{
-	sofaMesh.material.materials[0].map = THREE.ImageUtils.loadTexture( './media/sofa 4.jpg');
-    sofaMesh.material.materials[0].needsUpdate = true;
-	sofaMesh.material.materials[1].map = THREE.ImageUtils.loadTexture( './media/sofa 4.jpg');
-    sofaMesh.material.materials[1].needsUpdate = true;
-	sofaMesh.material.materials[2].map = THREE.ImageUtils.loadTexture( './media/sofa 4.jpg');
-    sofaMesh.material.materials[2].needsUpdate = true;
-}
-function changeSofaTexture4()
-{
-	sofaMesh.material.materials[3].map = THREE.ImageUtils.loadTexture( './media/sofa 4.jpg');
+	sofaMesh.material.materials[3].map = THREE.ImageUtils.loadTexture( jastuci);
     sofaMesh.material.materials[3].needsUpdate = true;
-	sofaMesh.material.materials[4].map = THREE.ImageUtils.loadTexture( './media/sofa 4.jpg');
+	sofaMesh.material.materials[4].map = THREE.ImageUtils.loadTexture( jastuci);
     sofaMesh.material.materials[4].needsUpdate = true;
-	sofaMesh.material.materials[5].map = THREE.ImageUtils.loadTexture( './media/sofa 4.jpg');
+	sofaMesh.material.materials[5].map = THREE.ImageUtils.loadTexture( jastuci);
     sofaMesh.material.materials[5].needsUpdate = true;
-	sofaMesh.material.materials[6].map = THREE.ImageUtils.loadTexture( './media/sofa 4.jpg');
+	sofaMesh.material.materials[6].map = THREE.ImageUtils.loadTexture( jastuci);
     sofaMesh.material.materials[6].needsUpdate = true;
 }
-function changeSofaTexture5()
-{
-	sofaMesh.material.materials[3].map = THREE.ImageUtils.loadTexture( './media/koza2.jpg');
-    sofaMesh.material.materials[3].needsUpdate = true;
-	sofaMesh.material.materials[4].map = THREE.ImageUtils.loadTexture( './media/koza2.jpg');
-    sofaMesh.material.materials[4].needsUpdate = true;
-	sofaMesh.material.materials[5].map = THREE.ImageUtils.loadTexture( './media/koza2.jpg');
-    sofaMesh.material.materials[5].needsUpdate = true;
-	sofaMesh.material.materials[6].map = THREE.ImageUtils.loadTexture( './media/koza2.jpg');
-    sofaMesh.material.materials[6].needsUpdate = true;
-}
-function changeSofaTexture6()
-{
-	sofaMesh.material.materials[3].map = THREE.ImageUtils.loadTexture( './media/jastuk6.jpg');
-    sofaMesh.material.materials[3].needsUpdate = true;
-	sofaMesh.material.materials[4].map = THREE.ImageUtils.loadTexture( './media/jastuk6.jpg');
-    sofaMesh.material.materials[4].needsUpdate = true;
-	sofaMesh.material.materials[5].map = THREE.ImageUtils.loadTexture( './media/jastuk6.jpg');
-    sofaMesh.material.materials[5].needsUpdate = true;
-	sofaMesh.material.materials[6].map = THREE.ImageUtils.loadTexture( './media/jastuk6.jpg');
-    sofaMesh.material.materials[6].needsUpdate = true;
-}
-function changeSofaTexture7()
-{
-	sofaMesh.material.materials[7].map = THREE.ImageUtils.loadTexture( './media/sofa1.jpg');
-    sofaMesh.material.materials[7].needsUpdate = true;
-}
-function changeSofaTexture8()
-{
-	sofaMesh.material.materials[7].map = THREE.ImageUtils.loadTexture( './media/sofa2.jpg');
-    sofaMesh.material.materials[7].needsUpdate = true;
-}
-function changeSofaTexture9()
-{
-	sofaMesh.material.materials[7].map = THREE.ImageUtils.loadTexture( './media/koza1.jpg');
-    sofaMesh.material.materials[7].needsUpdate = true;
-}
+
+
