@@ -15,6 +15,7 @@ var scene;
 var camera;
 var controls;
 var crate;
+var plant;
 
 
 
@@ -50,8 +51,9 @@ function mainy()
 	//init shelf
 	initTextures();
 	drawShelf();
-	loadModel();
-	//modelLoaded();
+	loadPlantModel();
+	drawFloor();
+	drawWalls();
 	
 	//draw crate by the shelf
     drawCrate();
@@ -72,7 +74,6 @@ function initShelf3dView()
 	
 	//creating Three.js scene
 	scene = new THREE.Scene();
-	
 	
 	//camera properties
 	var view_angle = 10,
@@ -203,9 +204,15 @@ function changeWidth() {
 	{
 		shelfWidth = newShelfWidth;
 		if (shelfWidth>100)
+		{
 			crate.position.z = 125;
+			plant.position.z = 125;
+		}
 		else
+		{
 			crate.position.z = 25;
+			plant.position.z = 25;
+		}
 		clearScene();
 		drawShelf();
 	}
@@ -571,11 +578,47 @@ function drawFloorAndWalls()
 {
 	//todo
 }			
-			
-function loadModel() {  // Call this function to load the model.
+
+// This function loads plant model.
+function loadPlantModel()
+{  
     var loader = new THREE.JSONLoader();
     loader.load('./media/plant.js', modelLoaded);  // Start load, call modelLoaded when done.
 }
+
+// Call this function to load the model.
+function drawFloor()
+{
+    var floorGeometryRepeat = new THREE.PlaneGeometry(400,400,1,1);
+	var floorTexture = THREE.ImageUtils.loadTexture( 'media/jastuk3.jpg' );
+	floorTexture.wrapS = THREE.RepeatWrapping;
+	floorTexture.wrapT = THREE.RepeatWrapping;
+	floorTexture.anisotropy = 16;
+	floorTexture.repeat.set( 4, 4 );
+	var floorMaterial = new THREE.MeshLambertMaterial({map:floorTexture});
+	var floorMesh = new THREE.Mesh(floorGeometryRepeat, floorMaterial);
+	floorMesh.position.set (-90,0,190);
+	floorMesh.rotation.set (-Math.PI/2,0,0);
+	scene.add(floorMesh);
+	
+}
+
+// Call this function to load the model.
+function drawWalls()
+{
+    var wall1GeometryRepeat = new THREE.PlaneGeometry(400,250,1,1);
+	var wall1Mesh = new THREE.Mesh(wall1GeometryRepeat, new THREE.MeshLambertMaterial( { color: 0x235588} ));
+	wall1Mesh.position.set (-90,120,0);
+	wall1Mesh.rotation.set (0,0,0);
+	scene.add(wall1Mesh);
+	
+	var wall2GeometryRepeat = new THREE.PlaneGeometry(400,250,1,1);
+	var wall2Mesh = new THREE.Mesh(wall2GeometryRepeat, new THREE.MeshLambertMaterial( { color: 0x446699} ));
+	wall2Mesh.position.set (110,120,190);
+	wall2Mesh.rotation.set (0,-Math.PI/2,0);
+	scene.add(wall2Mesh);
+}
+
      
 function scene2ModelLoaded ( geometry, materials ) { // callback function for JSON loader
      sofaMesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
@@ -592,17 +635,17 @@ function scene2ModelLoaded ( geometry, materials ) { // callback function for JS
 }
 
 function modelLoaded( geometry, materials ) { // callback function for JSON loader
-    var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
-    mesh.position.x = 80;
-	mesh.position.y = 50;
-	mesh.position.z = 25;
-    mesh.scale.x = 20;
-	mesh.scale.y = 20;
-	mesh.scale.z = 20;
-    mesh.name = "plant";
-    mesh.visible = true;
-    scene.add( mesh );
-	mesh.scale *= 10;
+    plant = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+    plant.position.x = 80;
+	plant.position.y = 50;
+	plant.position.z = 25;
+    plant.scale.x = 20;
+	plant.scale.y = 20;
+	plant.scale.z = 20;
+    plant.name = "plant";
+    plant.visible = true;
+    scene.add( plant );
+	plant.scale *= 10;
 }
 
 function changeSofaTexture(texture, sofaPart) {
