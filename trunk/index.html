@@ -19,12 +19,20 @@
 			
 			
 		}
-		#id-settings-tex{
+		
+		.settings-block{
 		    height:200px;
 			width:300px;
-			margin-left:558px;
-			margin-top:20px;	
+			margin-right:10px;
 		}
+		
+		.settings-div {
+			min-width: 980px;
+		    margin-top:20px;
+			margin-left:15%;
+			border: 0px solid red;
+		}
+
 		#id-menu-shelf{
 		border-bottom:solid blue 2px;
 		}
@@ -37,13 +45,7 @@
 		#id-menu-contact{
 		border-bottom:solid blue 2px;
 		} 
-		
-		#id-settings-dim{
-		    height:200px;
-			width:300px;
-			margin-left:100px
-			margin-top:20px;
-			}
+				
 		.headerTitle {
 			text-align: left;
 			color: gray;
@@ -76,9 +78,11 @@
 			background-color: lightblue;
 		}
 		
-		#id-container3d {min-height: 450px;
-		margin-left:15%;
-		margin-right:15%;}
+		#id-container3d {
+			min-height: 450px;
+			margin-left:15%;
+			margin-right:15%;
+		}
 		
 		#id-sofa-container3d {min-height: 450px;
 		margin-left:15%;
@@ -111,7 +115,7 @@
 		
 		.formRow label {
 			display: inline-block;
-			width: 128px;
+			width: 108px;
 			font-family:sans-serif;
 			
 		}
@@ -363,8 +367,8 @@
 	  
 		<div id="id-container3d"></div>
 	 
-		<div id="id-settings">
-			<div id="id-settings-dim" style="float:left; margin-left:15%;border:solid grey 1px">
+		<div id="id-settings" class="settings-div">
+			<div id="id-settings-dim" class="settings-block" style="float:left; border:solid grey 1px">
 			       <span class="aSpan"	 style="padding: 8px; top: -10px;left:8px">CUSTOMIZE DIMENSIONS :</span>
 				<form id="settingsForm">
 					<span class="formRow"><label for="width">Width:</label>   <input type="number" name="width" id="id-input-shelf-width" value="60" onchange="changeWidth()" ></span>
@@ -377,7 +381,7 @@
 				</form>
 			</div>
 
-			<div id="id-settings-tex" style="margin-left 150px;border:solid grey 1px;">
+			<div id="id-settings-tex" class="settings-block" style="float:left; border: solid grey 1px;">
                 <span class="aSpan"	 style="padding: 8px; top: -55px;left:14px">SIDES TEXTURES :</span>			
 				<input class="formButton1" type="button" onclick="changeTexture('media/wood_side_light.jpg')"></input>
 				<input class="formButton2" type="button" onclick="changeTexture('media/wood_side_red.jpg')"></input>
@@ -391,7 +395,7 @@
 				</div>
 				
 			</div>
-			<div id="id-setting-tex2" style="width:300px;height:200px;margin-top:-202px;margin-right:10px;margin-left:905px;border:solid grey 1px;">
+			<div id="id-setting-tex2" class="settings-block" style="float:left; border:solid grey 1px;">
 			    <span class="aSpan"	 style="padding: 8px; top: -54px;left:14px">STRIPES TEXTURES :</span>	
 				<input class="formButton18" type="button" onclick="changeTexture('media/wood_side_light.jpg')"></input>
 				<input class="formButton19" type="button" onclick="changeTexture('media/wood_side_red.jpg')"></input>
@@ -403,7 +407,7 @@
 				<input class="formButton24" type="button" onclick="changeTexture('media/wood_side_dark.jpg')"></input>
 				<input class="formButton25" type="button" onclick="changeTexture('media/wood_side_dark.jpg')"></input>
 				</div>
-				</div>
+			</div>
 		</div>
 		
 		
