@@ -127,7 +127,7 @@ function initSofa3dView()
 	sceneSofa = new THREE.Scene(); 
 	
 	var loader = new THREE.JSONLoader();
-    loader.load('./media/red_sofa3.js', scene2ModelLoaded);
+    loader.load('./media/sofa.js', scene2ModelLoaded);
 	
 	
 	//camera properties
@@ -136,8 +136,9 @@ function initSofa3dView()
 		near = 0.1,
 		far = 9000;
 	cameraSofa = new THREE.PerspectiveCamera(view_angle, aspect, near, far); //creating camera
+	cameraSofa.position.x = -180;
 	cameraSofa.position.z = 780;
-	cameraSofa.position.y = 80;
+	cameraSofa.position.y = 280;
 
 	//renderer
 	rendererSofa = new THREE.WebGLRenderer({color: 0xffffff , antialias:true}); //create renderer,set its size,add to body
@@ -147,7 +148,7 @@ function initSofa3dView()
 	
 	//controls
 	controlsSofa = new THREE.OrbitControls( cameraSofa, rendererSofa.domElement );
-	controlsSofa.target = new THREE.Vector3(0,50,0)
+	controlsSofa.target = new THREE.Vector3(100,50,0)
 	controlsSofa.update();
 
 	//some light
@@ -403,15 +404,27 @@ function changeTexture(texture)
 
 	drawShelf();
 }
+
+function changeStripeTexture(texture)
+{
+	clearScene();
+	
+	stripeTexture = THREE.ImageUtils.loadTexture( texture );
+	stripeTexture.wrapS = THREE.RepeatWrapping;
+	stripeTexture.wrapT = THREE.RepeatWrapping;
+	stripeTexture.anisotropy = 16;
+
+	drawShelf();
+}
 			
 // loading wood textures for shelf
 function initTextures()
 {
-	sideTexture = THREE.ImageUtils.loadTexture( 'media/wood_side_light.jpg' );
+	sideTexture = THREE.ImageUtils.loadTexture( 'media/wood_tex_1.jpg' );
 	sideTexture.wrapS = THREE.RepeatWrapping;
 	sideTexture.wrapT = THREE.RepeatWrapping;
 	sideTexture.anisotropy = 16;
-	stripeTexture = THREE.ImageUtils.loadTexture( 'media/wood_stripe_dark.jpg' );
+	stripeTexture = THREE.ImageUtils.loadTexture( 'media/wood_tex_2.jpg' );
 	stripeTexture.wrapS = THREE.RepeatWrapping;
 	stripeTexture.wrapT = THREE.RepeatWrapping;
 }
