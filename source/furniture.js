@@ -37,6 +37,8 @@ var objectsArr = [];
 var sceneSofa;
 var sofaInitialized = false;
 var sofaMesh ;
+var sofa1model = {"model":"./media/sofa1.json", "name":"sofa1", "mesh":0, "end_frame":14, "position":new THREE.Vector3(0,0,0), "rotation":new THREE.Vector3(0,0,0)};
+var sofa2model = {"model":"./media/sofa2.json", "name":"sofa2", "mesh":0, "end_frame":16, "position":new THREE.Vector3(0,0,0), "rotation":new THREE.Vector3(0,0,0)};
 var SOFA_PART_BASE = 1;
 var SOFA_PART_SEAT = 2;
 var SOFA_PART_CUSHION = 3;
@@ -92,7 +94,7 @@ function initShelf3dView()
 	
 	//controls
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
-	controls.target = new THREE.Vector3(0,50,0)
+	controls.target = new THREE.Vector3(0,50,0);
 	controls.update();
 
 	//some light
@@ -127,7 +129,9 @@ function initSofa3dView()
 	sceneSofa = new THREE.Scene(); 
 	
 	var loader = new THREE.JSONLoader();
-    loader.load('./media/sofa.js', scene2ModelLoaded);
+	loadAnimatedObject(loader, sofa1model);
+	loadAnimatedObject(loader, sofa2model);
+    //loader.load('./media/sofa.js', scene2ModelLoaded);
 	
 	
 	//camera properties
@@ -178,9 +182,20 @@ var render = function () {
 	renderer.render(scene, camera);
 };
 
+var clock = new THREE.Clock();
+
 var renderSofa = function () {
 	//finally doing rendering, when this function is called
 	requestAnimationFrame(renderSofa);
+	
+	var delta = clock.getDelta();
+	if(sofa1model.mesh != 0)
+		sofa1model.mesh.updateAnimation( 1000 * delta );
+	
+	if(sofa2model.mesh != 0)
+		sofa2model.mesh.updateAnimation( 1000 * delta );
+	
+	
 	rendererSofa.render(sceneSofa, cameraSofa);
 };
 
@@ -691,4 +706,54 @@ function changeSofaTexture(texture, sofaPart) {
 
 
 
+//check if model is already being downloaded, and wait for it to download and clone it...
+function loadAnimatedObject(loader, gobject)
+{
+	loader.load( gobject.model, loadAnimatedObjectClb(gobject) );
+}
+
+
+//load animated 3d mesh callback function
+function loadAnimatedObjectClb( gobject ) {
+	return function (geometry, materials ) {
+
+			console.log("loadAnimatedObject : " + gobject.name);
+			//morphColorsToFaceColors( geometry );
+			geometry.computeMorphNormals();
+			materials[ 0 ].morphTargets = true;
+			materials[ 0 ].morphNormals = true;
+			if(materials.length > 2)
+			{
+				materials[ 1 ].morphTargets = true;
+				materials[ 2 ].morphTargets = true;
+				materials[ 1 ].morphNormals = true;
+				materials[ 2 ].morphNormals = true;
+			}
+			gobject.mesh = new THREE.MorphAnimMesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+		
+			gobject.mesh.position = new THREE.Vector3(0,0,0);//gobject.position;
+			gobject.mesh.rotation = new THREE.Vector3(0,0,0);//gobject.rotation;
+			sceneSofa.add( gobject.mesh );
+			
+			gobject.mesh.position.x = 100;
+			gobject.mesh.position.y = 0;
+			gobject.mesh.position.z = 0;
+			gobject.mesh.scale.x = 20;
+			gobject.mesh.scale.y = 20;
+			gobject.mesh.scale.z = 20;
+
+			if(gobject.name == "sofa1")
+			{
+				gobject.mesh.position.z = 30;
+				//gobject.mesh.position.z = 26;
+				//gobject.mesh.scale.z = 18;
+			}
+			
+			gobject.mesh.scale *= 10;
+			
+			gobject.mesh.duration = 3300;
+			gobject.mesh.setFrameRange(1,gobject.end_frame);
+			
+	}
+}
 
