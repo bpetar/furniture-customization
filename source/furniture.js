@@ -37,6 +37,8 @@ var objectsArr = [];
 var sceneSofa;
 var sofaInitialized = false;
 var sofaMesh ;
+var animateSofa1 = true;
+var animateSofa2 = true;
 var sofa1model = {"model":"./media/sofa1.json", "name":"sofa1", "mesh":0, "end_frame":14, "position":new THREE.Vector3(0,0,0), "rotation":new THREE.Vector3(0,0,0)};
 var sofa2model = {"model":"./media/sofa2.json", "name":"sofa2", "mesh":0, "end_frame":16, "position":new THREE.Vector3(0,0,0), "rotation":new THREE.Vector3(0,0,0)};
 var SOFA_PART_BASE = 1;
@@ -751,9 +753,37 @@ function loadAnimatedObjectClb( gobject ) {
 			
 			gobject.mesh.scale *= 10;
 			
-			gobject.mesh.duration = 3300;
-			gobject.mesh.setFrameRange(1,gobject.end_frame);
-			
+			gobject.mesh.duration = 1000000;
 	}
 }
 
+function sofaAnim1()
+{
+	if(animateSofa1)
+	{
+		sofa1model.mesh.duration = 3300;
+		sofa1model.mesh.setFrameRange(1,sofa1model.end_frame);
+		animateSofa1 = false;
+	}
+	else
+	{
+		sofa1model.mesh.duration = 2000000;
+		animateSofa1 = true;
+	}
+}
+
+function sofaAnim2()
+{
+	if(animateSofa2)
+	{
+		sofa2model.mesh.duration = 3300;
+		sofa2model.mesh.setFrameRange(0,sofa2model.end_frame);
+		animateSofa2 = false;
+	}
+	else
+	{
+		sofa2model.mesh.duration = 2000000;
+		sofa2model.mesh.setFrameRange(0,1);
+		animateSofa2 = true;
+	}
+}
