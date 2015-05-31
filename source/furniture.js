@@ -142,9 +142,9 @@ function initSofa3dView()
 		near = 0.1,
 		far = 9000;
 	cameraSofa = new THREE.PerspectiveCamera(view_angle, aspect, near, far); //creating camera
-	cameraSofa.position.x = -180;
+	cameraSofa.position.x = -280;
 	cameraSofa.position.z = 780;
-	cameraSofa.position.y = 280;
+	cameraSofa.position.y = 220;
 
 	//renderer
 	rendererSofa = new THREE.WebGLRenderer({color: 0xffffff , antialias:true}); //create renderer,set its size,add to body
@@ -154,7 +154,7 @@ function initSofa3dView()
 	
 	//controls
 	controlsSofa = new THREE.OrbitControls( cameraSofa, rendererSofa.domElement );
-	controlsSofa.target = new THREE.Vector3(100,50,0)
+	controlsSofa.target = new THREE.Vector3(50,20,0)
 	controlsSofa.update();
 
 	//some light
@@ -191,10 +191,10 @@ var renderSofa = function () {
 	requestAnimationFrame(renderSofa);
 	
 	var delta = clock.getDelta();
-	if(sofa1model.mesh != 0)
+	if((sofa1model.mesh != 0)&&(animateSofa1==false))
 		sofa1model.mesh.updateAnimation( 1000 * delta );
 	
-	if(sofa2model.mesh != 0)
+	if((sofa2model.mesh != 0)&&(!animateSofa2))
 		sofa2model.mesh.updateAnimation( 1000 * delta );
 	
 	
@@ -620,7 +620,7 @@ function loadPlantModel()
 function drawFloor()
 {
     var floorGeometryRepeat = new THREE.PlaneGeometry(400,400,1,1);
-	var floorTexture = THREE.ImageUtils.loadTexture( 'media/jastuk3.jpg' );
+	var floorTexture = THREE.ImageUtils.loadTexture( 'media/sofa_tex_9.jpg' );
 	floorTexture.wrapS = THREE.RepeatWrapping;
 	floorTexture.wrapT = THREE.RepeatWrapping;
 	floorTexture.anisotropy = 16;
@@ -680,28 +680,51 @@ function modelLoaded( geometry, materials ) { // callback function for JSON load
 
 function changeSofaTexture(texture, sofaPart) {
 
- if (sofaPart == SOFA_PART_SEAT) {
-  sofaMesh.material.materials[0].map = THREE.ImageUtils.loadTexture(texture);
-  sofaMesh.material.materials[0].needsUpdate = true;
-  sofaMesh.material.materials[1].map = THREE.ImageUtils.loadTexture(texture);
-  sofaMesh.material.materials[1].needsUpdate = true;
-  sofaMesh.material.materials[2].map = THREE.ImageUtils.loadTexture(texture);
-  sofaMesh.material.materials[2].needsUpdate = true; 
- } 
- else if (sofaPart == SOFA_PART_CUSHION) {
-  sofaMesh.material.materials[3].map = THREE.ImageUtils.loadTexture(texture);
-  sofaMesh.material.materials[3].needsUpdate = true;
-  sofaMesh.material.materials[4].map = THREE.ImageUtils.loadTexture(texture);
-  sofaMesh.material.materials[4].needsUpdate = true;
-  sofaMesh.material.materials[5].map = THREE.ImageUtils.loadTexture(texture);
-  sofaMesh.material.materials[5].needsUpdate = true;
-  sofaMesh.material.materials[6].map = THREE.ImageUtils.loadTexture(texture);
-  sofaMesh.material.materials[6].needsUpdate = true; 
- } 
- else if (sofaPart == SOFA_PART_BASE) {
-  sofaMesh.material.materials[7].map = THREE.ImageUtils.loadTexture(texture);
-  sofaMesh.material.materials[7].needsUpdate = true;
- }
+
+	var seatTexture = THREE.ImageUtils.loadTexture( texture );
+	seatTexture.wrapS = THREE.RepeatWrapping;
+	seatTexture.wrapT = THREE.RepeatWrapping;
+	seatTexture.anisotropy = 16;
+	seatTexture.repeat.set(1, 1);
+	
+	if (sofaPart == SOFA_PART_SEAT) {
+		sofa2model.mesh.material.materials[0].map = seatTexture;
+		sofa2model.mesh.material.materials[0].needsUpdate = true; 
+		sofa2model.mesh.material.materials[1].map = seatTexture;
+		sofa2model.mesh.material.materials[1].needsUpdate = true;
+		sofa1model.mesh.material.materials[1].map = seatTexture;
+		sofa1model.mesh.material.materials[1].needsUpdate = true;
+		sofa2model.mesh.material.materials[7].map = seatTexture;
+		sofa2model.mesh.material.materials[7].needsUpdate = true;
+	} 
+	else if (sofaPart == SOFA_PART_CUSHION) {
+		sofa1model.mesh.material.materials[0].map = seatTexture;
+		sofa1model.mesh.material.materials[0].needsUpdate = true;
+		sofa1model.mesh.material.materials[2].map = seatTexture;
+		sofa1model.mesh.material.materials[2].needsUpdate = true; 
+		sofa2model.mesh.material.materials[3].map = seatTexture;
+		sofa2model.mesh.material.materials[3].needsUpdate = true;
+		sofa2model.mesh.material.materials[4].map = seatTexture;
+		sofa2model.mesh.material.materials[4].needsUpdate = true;
+		sofa2model.mesh.material.materials[5].map = seatTexture;
+		sofa2model.mesh.material.materials[5].needsUpdate = true;
+		sofa2model.mesh.material.materials[6].map = seatTexture;
+		sofa2model.mesh.material.materials[6].needsUpdate = true;
+	} 
+	else if (sofaPart == SOFA_PART_BASE) {
+		sofa1model.mesh.material.materials[3].map = seatTexture;
+		sofa1model.mesh.material.materials[3].needsUpdate = true;
+		sofa1model.mesh.material.materials[4].map = seatTexture;
+		sofa1model.mesh.material.materials[4].needsUpdate = true;
+		sofa1model.mesh.material.materials[5].map = seatTexture;
+		sofa1model.mesh.material.materials[5].needsUpdate = true;
+		sofa2model.mesh.material.materials[2].map = seatTexture;
+		sofa2model.mesh.material.materials[2].needsUpdate = true;
+		sofa2model.mesh.material.materials[8].map = seatTexture;
+		sofa2model.mesh.material.materials[8].needsUpdate = true;
+		sofa2model.mesh.material.materials[9].map = seatTexture;
+		sofa2model.mesh.material.materials[9].needsUpdate = true;
+	}
 };
 
 
